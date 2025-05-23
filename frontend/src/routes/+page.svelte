@@ -1,12 +1,15 @@
 <script>
-	let { data } = $props();
+	import { enhance } from '$app/forms';
+
+	let { data, form } = $props();
+
 </script>
 
 <section>
 	<!-- navabr -->
 	<div class="navbar">
 		<div class="flex-1">
-			<a href="/" class="flex items-center gap-2 text-2xl">
+			<a href="/" class="flex items-center gap-2 text-2xl" aria-label="Whisper Home">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -14,6 +17,7 @@
 					stroke-width="1.5"
 					stroke="currentColor"
 					class="size-10 text-rose-500"
+					aria-hidden="true"
 				>
 					<path
 						stroke-linecap="round"
@@ -22,49 +26,50 @@
 					/>
 				</svg>
 
-				<span class=" font-bold text-gray-800">Whisper</span>
+				<span class="font-bold text-gray-800">Whisper</span>
 			</a>
 		</div>
 		<div class="flex-none">
 			<ul class="menu menu-horizontal px-1">
 				<li>
-					<a href="/" class="text-xl"> About</a>
+					<a href="/" class="text-xl">About</a>
 				</li>
 				{#if !data?.user}
-				<li>
-					<button class="btn btn-dash btn-secondary mx-3 rounded-xl"
-						><a href="/login">Login</a></button
-					>
-				</li>
-				<li>
-					<button class="btn btn-error rounded-xl text-white"
-						><a href="/register">Register</a></button
-					>
-				</li>
+					<li>
+						<a href="/login" class="btn btn-dash btn-secondary mx-3 rounded-xl">Login</a>
+					</li>
+					<li>
+						<a href="/register" class="btn btn-error rounded-xl text-white">Register</a>
+					</li>
 				{:else}
-				<li>
-					<div class="dropdown dropdown-end">
-						<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-							<div class="w-10 rounded-full bg-primary text-white">
-								{#if data?.user.avatar}
-									<img src={data?.user.avatar} alt="profile" />
-								{:else}
-									<span class="text-xl">{data?.user.name[0].toUpperCase()}</span>
-								{/if}
-							</div>
-						</div>
-						<ul tabindex="0" class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
-							<li><a href="/app/dashboard">Profile</a></li>
-							<li><form action="/logout" method="POST"><button type="submit">Logout</button></form></li>
-						</ul>
-					</div>
-				</li>
+					<li>
+						<form action="?/logout" use:enhance method="post">
+							<button class="btn btn-ghost btn-circle" aria-label="Logout">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+								<polyline points="16 17 21 12 16 7"></polyline>
+								<line x1="21" y1="12" x2="9" y2="12"></line>
+							</svg>
+						</button>
+						</form>
+					</li>
 				{/if}
 			</ul>
 		</div>
 	</div>
 	<!-- end navbar -->
-
+</section>
 	<!-- start of hero -->
 	<div class="hero min-h-screen">
 		<div class="hero-content text-center">
@@ -79,12 +84,16 @@
 
 				<button
 					class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl btn-secondary rounded-4xl me-2"
-					>Get Started</button
+					aria-label="Get Started with Whisper"
 				>
+					Get Started
+				</button>
 				<button
 					class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl btn-outline btn-accent rounded-4xl"
-					>Explore Therapists</button
+					aria-label="Explore Available Therapists"
 				>
+					Explore Therapists
+				</button>
 			</div>
 		</div>
 	</div>
@@ -92,9 +101,9 @@
 	<!-- start of features -->
 	<section class="flex flex-col items-center justify-center gap-8 px-4 py-8 md:py-16">
 		<div class="mx-auto max-w-2xl text-center">
-			<h1 class="mb-4 text-4xl font-bold text-gray-800">How it works</h1>
+			<h2 class="mb-4 text-4xl font-bold text-gray-800">How it works</h2>
 			<p class="text-gray-600">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.
+				Experience our simple three-step process to begin your healing journey.
 			</p>
 		</div>
 		<div class="grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-3">
@@ -102,7 +111,7 @@
 				class="flex flex-col items-center rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-sm"
 			>
 				<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100">
-					<span class="text-2xl">1</span>
+					<span class="text-2xl" aria-hidden="true">1</span>
 				</div>
 				<h3 class="mb-2 text-xl font-semibold">Choose a Therapist</h3>
 				<p class="text-gray-600">
@@ -113,7 +122,7 @@
 				class="flex flex-col items-center rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-sm"
 			>
 				<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
-					<span class="text-2xl">2</span>
+					<span class="text-2xl" aria-hidden="true">2</span>
 				</div>
 				<h3 class="mb-2 text-xl font-semibold">Talk Privately</h3>
 				<p class="text-gray-600">
@@ -124,7 +133,7 @@
 				class="flex flex-col items-center rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-sm"
 			>
 				<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-					<span class="text-2xl">3</span>
+					<span class="text-2xl" aria-hidden="true">3</span>
 				</div>
 				<h3 class="mb-2 text-xl font-semibold">Feel Better</h3>
 				<p class="text-gray-600">Experience emotional relief through therapeutic conversation.</p>
@@ -145,6 +154,7 @@
 					stroke-width="1.5"
 					stroke="currentColor"
 					class="size-6"
+					aria-hidden="true"
 				>
 					<path
 						stroke-linecap="round"
@@ -172,4 +182,4 @@
 		</div>
 	</footer>
 	<!-- end footer -->
-</section>
+

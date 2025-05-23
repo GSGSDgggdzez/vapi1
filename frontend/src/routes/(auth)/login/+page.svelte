@@ -1,6 +1,9 @@
 <script>
+	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
+
 	/** @type {{ data: import('./$types').PageData }} */
-	let { data } = $props();
+	let { data, form } = $props();
 </script>
 
 <div class="flex min-h-screen flex-col bg-gradient-to-b from-rose-50 to-purple-50">
@@ -30,15 +33,67 @@
 					</div>
 				</div>
 				<p class="text-center text-2xl font-bold">Login with to account</p>
-				<form action="" class="flex flex-col items-center justify-center " method="post">
-					
-                    <input class="input validator w-full my-3  rounded-xl" type="email" required placeholder="mail@site.com" />
-                    <input class="input validator w-full my-3  rounded-xl" type="password" required placeholder="Password" />
-                    <button class="btn btn-secondary w-full rounded-xl my-3" >
-                        
-                        Login
-                    </button>
-                    <p>Already have an account? <a href="/register" class="text-secondary">Sign Up</a></p>
+				<form
+					action="?/login"
+					use:enhance={({ form, data, action, cancel }) => {
+						return async ({ result, update }) => {
+							if (result.type === 'success') {
+								await goto('/app/dashboard');
+							}
+							await update();
+						};
+					}}
+					class="flex flex-col items-center justify-center"
+					method="post"
+				>
+					<input
+						class="input validator my-3 w-full rounded-xl"
+						value={form?.data?.email ?? ''}
+						type="email"
+						name="email"
+						id="email"
+						required
+						placeholder="mail@site.com"
+					/>
+					{#if form?.error?.email}
+						<div class="text-sm text-red-500">
+							{form?.error?.email}
+						</div>
+					{/if}
+					<input
+						class="input validator my-3 w-full rounded-xl"
+						value={form?.data?.password ?? ''}
+						type="password"
+						name="password"
+						id="password"
+						required
+						placeholder="Password"
+					/>
+					{#if form?.error?.password}
+						<div class="text-sm text-red-500">
+							{form?.error?.password}
+						</div>
+					{/if}
+					{#if form?.error}
+						<div role="alert" class=" alert alert-error w-full rounded-2xl text-white">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6 shrink-0 stroke-current"
+								fill="none"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+							<span>{form?.error}</span>
+						</div>
+					{/if}
+					<button class="btn btn-secondary my-3 w-full rounded-xl"> Login </button>
+					<p>Already have an account? <a href="/register" class="text-secondary">Sign Up</a></p>
 				</form>
 			</div>
 		</div>

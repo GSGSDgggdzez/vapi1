@@ -40,6 +40,8 @@
 	},
 	"dependencies": {
 		"@tanstack/svelte-query": "^5.76.0",
-		"pocketbase": "^0.26.0"
+		"@vapi-ai/web": "^2.3.0",
+		"pocketbase": "^0.26.0",
+		"zod-form-data": "^2.0.7"
 	}
 }

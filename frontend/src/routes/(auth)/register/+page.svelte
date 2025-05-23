@@ -1,6 +1,22 @@
 <script>
+	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
+
 	/** @type {{ data: import('./$types').PageData }} */
-	let { data } = $props();
+	let { data, form } = $props();
+	
+	/**
+	 * Handle form submission with enhance
+	 * @param {HTMLFormElement} form
+	 */
+	function handleEnhance(form) {
+		return async ({ result }) => {
+			// If the action was successful, redirect to login page
+			if (result.type === 'success') {
+				goto('/login');
+			}
+		};
+	}
 </script>
 
 <div class="flex min-h-screen flex-col bg-gradient-to-b from-rose-50 to-purple-50">
@@ -29,26 +45,95 @@
 						</a>
 					</div>
 				</div>
-				<p class="text-center text-2xl font-bold">Login with to account</p>
-				<form action="" class="flex flex-col items-center justify-center " method="post">
+				<p class="text-center text-2xl font-bold">Create your account</p>
+				<form
+					action="?/register"
+					class="flex flex-col items-center justify-center"
+					use:enhance={handleEnhance}
+					method="post"
+				>
 					<input
 						type="text"
-						class="input validator w-full my-3 rounded-xl"
+						class="input validator my-3 w-full rounded-xl"
 						required
 						placeholder="Name"
 						pattern="[A-Za-z][A-Za-z0-9\-]*"
+						name="name"
+						id="name"
 						minlength="3"
+						value={form?.data?.name}
 						maxlength="30"
 						title="Only letters, numbers or dash"
 					/>
-                    <input class="input validator w-full my-3  rounded-xl" type="email" required placeholder="mail@site.com" />
-                    <input class="input validator w-full my-3  rounded-xl" type="password" required placeholder="Password" />
-                    <input class="input validator w-full my-3  rounded-xl" type="password" required placeholder="Confirm Password" />
-                    <button class="btn btn-secondary w-full rounded-xl my-3" >
-                        
-                        Create Account
-                    </button>
-                    <p>Already have an account? <a href="/login" class="text-secondary">Sign in</a></p>
+					{#if form?.errors?.name}
+						<div class="text-sm text-red-500">
+							{form?.errors?.name}
+						</div>
+					{/if}
+					<input
+						class="input validator my-3 w-full rounded-xl"
+						name="email"
+						value={form?.data?.email}
+						id="email"
+						type="email"
+						required
+						placeholder="mail@site.com"
+					/>
+					{#if form?.errors?.email}
+						<div class="text-sm text-red-500">
+							{form?.errors?.email}
+						</div>
+					{/if}
+					<input
+						class="input validator my-3 w-full rounded-xl"
+						name="password"
+						value={form?.data?.password}
+						id="password"
+						type="password"
+						required
+						placeholder="Password"
+					/>
+					{#if form?.errors?.password}
+						<div class="text-sm text-red-500">
+							{form?.errors?.password}
+						</div>
+					{/if}
+					<input
+						class="input validator my-3 w-full rounded-xl"
+						type="password"
+						value={form?.data?.passwordConfirm}
+						required
+						placeholder="Confirm Password"
+						name="passwordConfirm"
+						id="passwordConfirm"
+					/>
+					{#if form?.errors?.passwordConfirm}
+						<div class="text-sm text-red-500">
+							{form?.errors?.passwordConfirm}
+						</div>
+					{/if}
+
+					{#if form?.error}
+						<div role="alert" class="alert alert-error w-full rounded-2xl text-white">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6 shrink-0 stroke-current"
+								fill="none"
+								viewBox="0 0 24 24"
+								
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+							<span>{form?.error}</span>
+						</div>
+					{/if}
+					<button class="btn btn-secondary my-3 w-full rounded-xl"> Create Account </button>
+					<p>Already have an account? <a href="/login" class="text-secondary">Sign in</a></p>
 				</form>
 			</div>
 		</div>
