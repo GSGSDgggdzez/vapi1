@@ -32,7 +32,7 @@
 		<div class="flex-none">
 			<ul class="menu menu-horizontal px-1">
 				<li>
-					<a href="/" class="text-xl">About</a>
+					<a href="/about" class="text-xl">About</a>
 				</li>
 				{#if !data?.user}
 					<li>

@@ -33,7 +33,7 @@
 		<div class="flex-none">
 			<ul class="menu menu-horizontal px-1">
 				<li>
-					<a href="/" class="text-xl transition-colors hover:text-rose-500">About</a>
+					<a href="/about" class="text-xl transition-colors hover:text-rose-500">About</a>
 				</li>
 				{#if !data?.user}
 					<li>
@@ -83,20 +83,11 @@
 
 	<div class="mx-auto px-4 py-8">
 		<div class="mx-auto max-w-4xl">
-			<h1 class="mb-4 text-4xl font-bold text-gray-800">Welcome to Whisper</h1>
+			<h1 class="mb-4 text-4xl font-bold text-gray-800">Welcome {data?.user?.name}</h1>
 
 			<p class="mb-8 text-xl text-gray-600">
 				Ready to talk? Choose a therapist to begin your session.
 			</p>
-			<br />
-
-			<div class="relative mt-4">
-				<input
-					type="search"
-					placeholder="Search therapists..."
-					class="input input-bordered w-full transition-colors focus:border-rose-500 focus:outline-none"
-				/>
-			</div>
 		</div>
 	</div>
 

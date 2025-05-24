@@ -105,19 +105,23 @@
 
 <div class="min-h-screen bg-gradient-to-b from-purple-900 to-indigo-900 flex flex-col">
     {#if callStatus === 'idle'}
-        <div class="flex-1 flex flex-col items-center justify-center p-4">
-            <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 max-w-md text-center">
-                <img
-                    src={data.therapist?.avatar || "/placeholder.svg?height=80&width=80"}
-                    alt={data.therapist?.name || "Therapist"}
-                    class="w-20 h-20 rounded-full mx-auto mb-4"
-                />
-                <h1 class="text-2xl font-bold text-white mb-2">{data.therapist?.name || "Therapist"}</h1>
-                <p class="text-white/60">{data.therapist?.specialty || "Therapy Session"}</p>
-                <div class="flex flex-wrap justify-center gap-2 mb-8">
+        <div class="flex-1 flex flex-col items-center justify-center p-8">
+            <div class="bg-white/10 backdrop-blur-md rounded-3xl p-12 max-w-lg text-center">
+                <div class="flex justify-center mb-6">
+                    <img
+                        src={data.therapist?.avatar && data.therapist.avatar[0]
+                            ? `http://127.0.0.1:8090/api/files/therapist/${data.therapist.id}/${data.therapist.avatar[0]}`
+                            : '/placeholder.svg?height=128&width=128'}
+                        alt={data.therapist?.name || "Therapist"}
+                        class="h-32 w-32 rounded-full object-cover shadow-lg ring-4 ring-rose-100 mx-auto"
+                    />
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-4">{data.therapist?.name || "Therapist"}</h1>
+                <p class="text-white/60 text-lg mb-4">{data.therapist?.specialty || "Therapy Session"}</p>
+                <div class="flex flex-wrap justify-center gap-3 mb-10">
                     {#if data.therapist?.traits}
                         {#each data.therapist.traits as trait}
-                            <span class="badge bg-white/10 text-white border-white/20">
+                            <span class="badge badge-lg bg-white/10 text-white border-white/20">
                                 {trait}
                             </span>
                         {/each}
@@ -125,7 +129,7 @@
                 </div>
                 <button 
                     onclick={startCall} 
-                    class="btn w-full rounded-xl bg-rose-500 hover:bg-rose-600 text-white"
+                    class="btn btn-lg w-full rounded-xl bg-rose-500 hover:bg-rose-600 text-white"
                 >
                     Start Session
                 </button>
